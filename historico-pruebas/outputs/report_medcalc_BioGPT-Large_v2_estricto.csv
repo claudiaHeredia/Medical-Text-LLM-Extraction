@@ -1,0 +1,16 @@
+patient_id,model,strategy,height_gt,weight_gt,bmi_gt,height_pred,weight_pred,bmi_pred,primary_error,bmi_explicit_in_note,error_A_knowledge,error_B_extraction,error_C_arithmetic,h_ok,w_ok,bmi_ok_abs,bmi_ok_5p,predijo_bien_all,predijo_bien_bmi
+67927,BioGPT-Large,v2_estricto,1.7,50.0,17.3,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+87441,BioGPT-Large,v2_estricto,1.33,30.5,17.24,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+75470,BioGPT-Large,v2_estricto,1.55,53.0,22.06,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+134903,BioGPT-Large,v2_estricto,1.63,52.0,19.57,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+162984,BioGPT-Large,v2_estricto,1.45,34.0,16.17,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+110830,BioGPT-Large,v2_estricto,1.56,50.0,20.55,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+121729,BioGPT-Large,v2_estricto,1.45,80.0,38.05,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+75227,BioGPT-Large,v2_estricto,1.72,70.0,23.66,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+59639,BioGPT-Large,v2_estricto,1.65,64.0,23.51,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+12206,BioGPT-Large,v2_estricto,1.9,82.0,22.71,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+134996,BioGPT-Large,v2_estricto,1.75,90.0,29.39,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+89861,BioGPT-Large,v2_estricto,1.54,48.0,20.24,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+84951,BioGPT-Large,v2_estricto,1.65,64.5,23.69,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+131138,BioGPT-Large,v2_estricto,1.67,64.0,22.95,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False
+30366,BioGPT-Large,v2_estricto,1.77,79.0,25.22,,,,A_knowledge,True,True,False,False,False,False,False,False,False,False

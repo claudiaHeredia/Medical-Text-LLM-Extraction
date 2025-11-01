@@ -1,0 +1,5 @@
+Modelo,Estrategia,predijo_bien_all,predijo_bien_bmi,h_ok,w_ok,bmi_ok_abs,error_A_knowledge,error_B_extraction,error_C_arithmetic,primary_ok,primary_A_knowledge,primary_B_extraction,predijo_bien_all_pct,predijo_bien_bmi_pct,h_ok_pct,w_ok_pct,bmi_ok_abs_pct,error_A_knowledge_pct,error_B_extraction_pct,error_C_arithmetic_pct,primary_ok_pct,primary_A_knowledge_pct,primary_B_extraction_pct
+BioGPT-Large,v1_simple,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0%,0.0%,0.0%,0.0%,0.0%,100.0%,0.0%,0.0%,0.0%,100.0%,0.0%
+BioGPT-Large,v2_estricto,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0%,0.0%,0.0%,0.0%,0.0%,100.0%,0.0%,0.0%,0.0%,100.0%,0.0%
+BioGPT-Large,v3_fewshot,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0%,0.0%,0.0%,0.0%,0.0%,100.0%,0.0%,0.0%,0.0%,100.0%,0.0%
+BioGPT-Large,v4_encadenado,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0,100.0,0.0,0.0%,0.0%,0.0%,0.0%,0.0%,100.0%,0.0%,0.0%,0.0%,100.0%,0.0%
