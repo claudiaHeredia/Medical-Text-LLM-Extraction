@@ -1,0 +1,5 @@
+Estrategia,Accuracy_General_mean,Accuracy_General_std,Configuraciones_count,Accuracy_General_max,Accuracy_General_min,Accuracy_BMI_mean,Error_A_mean,Error_B_mean,Error_C_mean
+v2_estricto,28.0,41.02,5,95.0,0.0,29.0,61.0,13.0,1.0
+v1_simple,22.0,38.99,5,90.0,0.0,26.0,73.0,6.0,1.0
+v3_fewshot,22.0,38.99,5,90.0,0.0,26.0,74.0,6.0,0.0
+v4_encadenado,8.0,17.89,5,40.0,0.0,9.0,71.0,16.0,11.0

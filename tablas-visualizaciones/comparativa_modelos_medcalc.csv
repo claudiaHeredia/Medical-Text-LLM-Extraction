@@ -1,0 +1,6 @@
+Modelo,bmi_ok_abs,error_A_knowledge,error_B_extraction,error_C_arithmetic,h_ok,predijo_bien_all,predijo_bien_bmi,primary_A_knowledge,primary_B_extraction,primary_ok,w_ok
+CodeLlama-7b-Instruct-hf,0.0,100.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0
+DialoGPT-large,0.0,100.0,0.0,0.0,0.0,0.0,0.0,100.0,0.0,0.0,0.0
+Phi-3-mini-4k-instruct,78.75,2.5,5.0,13.750000000000002,97.5,78.75,78.75,2.5,5.0,78.75,95.0
+Qwen2.5-0.5B-Instruct,7.5,95.0,10.0,0.0,1.25,1.25,7.5,95.0,3.75,1.25,37.5
+stablelm-zephyr-3b,26.25,51.25,36.25,2.5,30.0,20.0,26.25,51.25,26.25,20.0,61.25

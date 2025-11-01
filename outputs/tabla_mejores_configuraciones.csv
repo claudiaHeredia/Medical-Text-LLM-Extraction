@@ -1,0 +1,6 @@
+Modelo,Estrategia,predijo_bien_all,predijo_bien_bmi,error_A_knowledge,error_B_extraction,error_C_arithmetic,predijo_bien_all_pct,predijo_bien_bmi_pct,error_A_knowledge_pct,error_B_extraction_pct,error_C_arithmetic_pct
+Phi-3-mini-4k-instruct,v2_estricto,95.0,95.0,0.0,5.0,0.0,95.0%,95.0%,0.0%,5.0%,0.0%
+stablelm-zephyr-3b,v2_estricto,40.0,40.0,10.0,45.0,5.0,40.0%,40.0%,10.0%,45.0%,5.0%
+Qwen2.5-0.5B-Instruct,v2_estricto,5.0,10.0,95.0,15.0,0.0,5.0%,10.0%,95.0%,15.0%,0.0%
+CodeLlama-7b-Instruct-hf,v1_simple,0.0,0.0,100.0,0.0,0.0,0.0%,0.0%,100.0%,0.0%,0.0%
+DialoGPT-large,v1_simple,0.0,0.0,100.0,0.0,0.0,0.0%,0.0%,100.0%,0.0%,0.0%
