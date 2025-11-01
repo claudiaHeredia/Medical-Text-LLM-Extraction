@@ -1,0 +1,27 @@
+name: imc-openvino
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy<2.1
+  - pandas
+  - tqdm
+  - scikit-learn
+  - scipy
+  - matplotlib
+  - jupyter
+  - pip:
+    - transformers==4.46.2
+    - accelerate>=0.34
+    - huggingface_hub>=0.24
+    - sacremoses
+    - sentencepiece
+    - optimum-intel[openvino]==1.26.0
+    - openvino>=2025.1.0
+    - torch
+    - torchvision
+    - torchaudio
+    - protobuf<5.0
+    - psutil
