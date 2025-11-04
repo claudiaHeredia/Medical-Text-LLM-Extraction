@@ -1,4 +1,4 @@
-# ==== Inferencia y evaluación (4 prompts) con OpenVINO ====
+# Inferencia y evaluación (4 prompts) con OpenVINO
 # - Modelo: codellama/CodeLlama-7b-Instruct-hf - Excelente para JSON
 # - Especializado en seguir formatos estructurados
 
@@ -182,7 +182,7 @@ if tokenizer is None:
     print(" No se pudo cargar ningún modelo.")
     sys.exit(1)
 
-# ------------ Ventanas / utils ------------
+# Ventanas / utils 
 WIN, STRIDE = 1000, 700
 UNIT_TOKENS = [" cm"," m","meter","metre","ft"," in","inch","kg"," lb","lbs","pound"," stone"," st","bmi","BMI","weight","height"]
 
@@ -254,7 +254,7 @@ FEW_SHOTS = [
      "{\"height_m\": null, \"weight_kg\": null, \"bmi\": null}"),
 ]
 
-# ------------ Prompt builder / parser / scoring ------------
+#  Prompt builder / parser / scoring
 def build_prompt(system_text: str, window_text: str):
     return apply_chat_template(system_text, f"NOTE WINDOW:\n{window_text}\n\nReturn ONLY valid JSON:")
 
@@ -531,3 +531,4 @@ print("\nArchivos generados:")
 for p in ALL_PRED_PATHS: print(" -", p)
 
 for p in EVAL_PATHS:     print(" -", p)
+
