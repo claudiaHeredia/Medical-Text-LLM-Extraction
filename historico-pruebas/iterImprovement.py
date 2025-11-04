@@ -12,11 +12,11 @@ def analyze_best_performers(results_df):
     
     best_models = viable_models.nlargest(5, 'predijo_bien_bmi_pct')
     
-    print("🏆 MEJORES MODELOS IDENTIFICADOS:")
+    print(" MEJORES MODELOS IDENTIFICADOS:")
     print("=" * 60)
     
     for _, row in best_models.iterrows():
-        print(f"🔹 {row['Modelo']} - {row['Estrategia']}")
+        print(f" {row['Modelo']} - {row['Estrategia']}")
         print(f"   Precisión BMI: {row['predijo_bien_bmi_pct']}%")
         print(f"   Precisión General: {row['predijo_bien_all_pct']}%")
         print(f"   Errores: A({row['error_A_knowledge_pct']}%) "
@@ -120,15 +120,15 @@ RESPUESTA SOLO JSON: {"height_m": número, "weight_kg": número, "bmi": número}
             "system": """ESPECIALISTA EN DETECCIÓN DE UNIDADES MÉDICAS
 
 ENFOQUE EN PATRONES:
-🔍 ALTURA: 
+ ALTURA: 
    - "165 cm", "1.65 m", "5'6\\"", "5 pies 6 pulgadas"
    - "estatura", "talla", "mide", "altura"
 
-🔍 PESO:
+ PESO:
    - "70 kg", "154 lb", "11 stone"  
    - "pesa", "peso", "kilogramos"
 
-🔍 BMI:
+ BMI:
    - "BMI 25.7", "IMC 24.5", "índice de masa corporal"
 
 CONVERSIONES EXPLÍCITAS:
@@ -167,7 +167,7 @@ RESPUESTA: {"height_m": valor, "weight_kg": valor, "bmi": valor}""",
 def create_implementation_plan(best_models, improvements, enhanced_prompts):
     """Crear plan de implementación concreto"""
     
-    print("\n🎯 PLAN DE IMPLEMENTACIÓN:")
+    print("\n PLAN DE IMPLEMENTACIÓN:")
     print("=" * 60)
     
     plan = {
@@ -212,7 +212,7 @@ def main():
     # Cargar tus resultados
     results_df = pd.read_csv("./resultados_completos.csv")  # Ajusta la ruta
     
-    print("🚀 ESTRATEGIA DE MEJORA BASADA EN RESULTADOS")
+    print(" ESTRATEGIA DE MEJORA BASADA EN RESULTADOS")
     print("=" * 70)
     
     # 1. Identificar mejores performers
@@ -242,11 +242,12 @@ def main():
     with open(output_dir / "implementation_plan.json", "w", encoding="utf-8") as f:
         json.dump(implementation_plan, f, indent=2, ensure_ascii=False)
     
-    print(f"\n✅ ESTRATEGIA GUARDADA EN: {output_dir}/")
-    print("\n🎯 PRÓXIMOS PASAS RECOMENDADOS:")
+    print(f"\nESTRATEGIA GUARDADA EN: {output_dir}/")
+    print("\n PRÓXIMOS PASAS RECOMENDADOS:")
     print("1. Ejecutar Phase 1 con Phi-3-mini y prompts mejorados")
     print("2. Comparar resultados con baseline actual") 
     print("3. Iterar basado en resultados")
 
 if __name__ == "__main__":
+
     main()
