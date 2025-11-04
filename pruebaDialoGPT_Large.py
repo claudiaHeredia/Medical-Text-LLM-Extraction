@@ -13,7 +13,7 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
-#  Dependencias (instala sólo si faltan) 
+#  Dependencias
 REQ = [
     "numpy<2.1",
     "pandas",
@@ -555,3 +555,4 @@ print("\nArchivos generados:")
 for p in ALL_PRED_PATHS: print(" -", p)
 
 for p in EVAL_PATHS:     print(" -", p)
+
