@@ -1,5 +1,4 @@
-# ==== Inferencia y evaluación (4 prompts) con OpenVINO (Intel GPU Iris / CPU) ====
-# - Diseñado para VS Code local
+#  Inferencia y evaluación 
 # - Entrada:
 #     - Notas: C:\Users\hered\Desktop\TFM\TFM\IMC2\eval_imc_fullnotes.csv  (cols: patient_id + texto)
 #     - GT   : C:\Users\hered\Desktop\TFM\TFM\IMC2\valid_imc.csv          (cols: patient_id, height_m, weight_kg, BMI, ...)
@@ -14,7 +13,7 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
-# ---------- Dependencias (instala sólo si faltan) ----------
+#  Dependencias 
 REQ = [
     "numpy<2.1",
     "pandas",
@@ -34,7 +33,7 @@ def ensure(pkgs):
         try: __import__(name.replace("-","_"))
         except Exception: need.append(spec)
     if need:
-        print("📦 Instalando:", need)
+        print("Instalando:", need)
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade"] + need)
 ensure(REQ)
 
@@ -43,7 +42,7 @@ from tqdm.auto import tqdm
 from transformers import AutoTokenizer
 from optimum.intel.openvino import OVModelForCausalLM
 
-# ------------ Rutas / Config ------------
+#  Rutas / Config 
 NOTES_CSV = r"C:\Users\hered\Desktop\TFM\TFM\IMC2\eval_imc_fullnotes.csv"
 GT_CSV    = r"C:\Users\hered\Desktop\TFM\TFM\IMC2\valid_imc.csv"
 OUT_DIR   = str(Path("./outputs").resolve())
@@ -67,7 +66,7 @@ PROTOTYPES = {1.60, 1.70, 1.73, 1.75, 65.0, 70.0, 72.5, 75.0, 22.49, 24.2, 25.0}
 
 Path(OUT_DIR).mkdir(parents=True, exist_ok=True)
 
-# ------------ Carga de datos ------------
+# Carga de datos
 def load_notes(csv_path):
     # lector robusto (comillas/líneas largas)
     df = pd.read_csv(csv_path, dtype={"patient_id": str})
@@ -101,7 +100,7 @@ gt    = load_gt(GT_CSV)
 notes = notes.head(20)
 print(f"Notas: {len(notes)} | GT: {len(gt)} | Intersección: {len(set(notes.patient_id)&set(gt.patient_id))}")
 
-# ------------ Modelo OpenVINO (Intel GPU → CPU fallback) ------------
+# Modelo OpenVINO (Intel GPU → CPU fallback)
 def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "GPU"):
     print(f"\nCargando tokenizer: {model_id}")
     tok = AutoTokenizer.from_pretrained(model_id, trust_remote_code=True)
@@ -125,15 +124,15 @@ def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "GPU"):
     try:
         test_ids = tok("ok", return_tensors="pt").input_ids
         _ = ov_model.generate(test_ids, max_new_tokens=1)
-        print(f"✅ Modelo operativo en {device}")
+        print(f" Modelo operativo en {device}")
     except Exception as e:
         if device == "GPU":
-            print(f"⚠️ Falló en GPU ({e}). Reintentando en CPU…")
+            print(f"Falló en GPU ({e}). Reintentando en CPU…")
             ov_model = OVModelForCausalLM.from_pretrained(
                 model_id, export=True, device="CPU", compile=True, trust_remote_code=True,
                 ov_config={"CACHE_DIR": str(Path(OUT_DIR)/"ov_cache")},
             )
-            print("✅ Modelo operativo en CPU")
+            print(" Modelo operativo en CPU")
         else:
             raise
 
@@ -172,7 +171,7 @@ def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "GPU"):
 print(f"Cargando modelo OpenVINO: {MODEL_ID}")
 tokenizer, llm_generate, apply_chat_template = get_ov_model_and_tokenizer(MODEL_ID, device_pref="GPU")
 
-# ------------ Ventanas / utils numéricas ------------
+#  Ventanas / utils numéricas 
 WIN, STRIDE = 1100, 800
 UNIT_TOKENS = [" cm"," m","meter","metre","ft"," in","inch","kg"," lb","lbs","pound"," stone"," st","bmi","BMI","weight","height"]
 
@@ -218,7 +217,7 @@ def proto_penalty(x):
         return -0.35 if v in PROTOTYPES else 0.0
     except: return 0.0
 
-# ------------ 4 PROMPTS ------------
+# 4 PROMPTS
 SYSTEM_SIMPLE = (
     "You are a careful clinical extractor. From the GIVEN WINDOW ONLY, return STRICT JSON with normalized SI values:\n"
     "{ \"height_m\": <float|null>, \"weight_kg\": <float|null>, \"bmi\": <float|null> }\n"
@@ -244,7 +243,7 @@ FEW_SHOTS = [
      "{\"height_m\": null, \"weight_kg\": null, \"bmi\": null}"),
 ]
 
-# ------------ Prompt builder / parser / scoring ------------
+# Prompt builder / parser / scoring
 def build_prompt(system_text: str, window_text: str):
     msgs = [{"role":"system","content":system_text},
             {"role":"user","content":"NOTE WINDOW:\n"+window_text+"\n\nJSON ONLY"}]
@@ -289,7 +288,7 @@ def score_triplet(h, w, b):
     s += proto_penalty(h) + proto_penalty(w) + proto_penalty(b)
     return s
 
-# --------- Ejecutores (simple/estricto/fewshot) ---------
+# Ejecutores (simple/estricto/fewshot)
 def run_triplet(note_text: str, system_text: str):
     wins = [(s, c) for s, c in window_iter(note_text)]
     wins = sorted(wins, key=lambda x: int(not has_unit_token(x[1])))
@@ -361,7 +360,7 @@ def run_fewshot(note_text: str, system_text: str):
     B = B_from if is_num(B_from) else (round(float(best["b"]),2) if is_num(best["b"]) else None)
     return H,W,B_from,B
 
-# --------- Encadenado (SPAN -> NORM) ---------
+# Encadenado (SPAN -> NORM)
 def chat_prompt(system, user):
     return apply_chat_template(system, user)
 
@@ -433,7 +432,7 @@ def run_chain_on_note(note_text: str, attempts_per_win=2, n_windows_max=6):
         "check":          best.get("check")
     }
 
-# ------------ Orquestación (4 prompts) ------------
+# Orquestación (4 prompts)
 PROMPTS = {
     "v1_simple":    SYSTEM_SIMPLE,
     "v2_estricto":  SYSTEM_STRICT,
@@ -443,7 +442,7 @@ PROMPTS = {
 
 def save_rows(rows, out_csv):
     pd.DataFrame(rows).to_csv(out_csv, index=False)
-    print(f"✅ Guardado: {out_csv}")
+    print(f" Guardado: {out_csv}")
 
 ALL_PRED_PATHS = []
 
@@ -487,7 +486,7 @@ for pid_name, system_text in PROMPTS.items():
     save_rows(rows, out_csv)
     ALL_PRED_PATHS.append(out_csv)
 
-# ------------ Evaluación contra GT ------------
+# Evaluación contra GT
 def eval_and_save(pred_path, gt_df):
     pred = pd.read_csv(pred_path, dtype={"patient_id": str})
     pred["patient_id"] = pred["patient_id"].astype(str).str.strip()
@@ -524,7 +523,7 @@ def eval_and_save(pred_path, gt_df):
     }
     mpath = pred_path.replace("pred_", "eval_")
     join.to_csv(mpath, index=False)
-    print(f"📊 Eval ({Path(pred_path).name}):", metrics)
+    print(f" Eval ({Path(pred_path).name}):", metrics)
     return mpath, metrics
 
 EVAL_PATHS = []
@@ -534,4 +533,5 @@ for p in ALL_PRED_PATHS:
 
 print("\nArchivos generados:")
 for p in ALL_PRED_PATHS: print(" -", p)
+
 for p in EVAL_PATHS:     print(" -", p)
