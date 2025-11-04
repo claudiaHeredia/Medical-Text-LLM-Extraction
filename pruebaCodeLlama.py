@@ -9,7 +9,7 @@ import pandas as pd
 
 warnings.filterwarnings("ignore")
 
-# ---------- Dependencias ----------
+#Dependencias
 REQ = [
     "numpy<2.1",
     "pandas",
@@ -29,7 +29,7 @@ def ensure(pkgs):
         try: __import__(name.replace("-","_"))
         except Exception: need.append(spec)
     if need:
-        print("📦 Instalando:", need)
+        print(" Instalando:", need)
         subprocess.check_call([sys.executable, "-m", "pip", "install", "--upgrade"] + need)
 ensure(REQ)
 
@@ -38,7 +38,7 @@ from tqdm.auto import tqdm
 from transformers import AutoTokenizer
 from optimum.intel.openvino import OVModelForCausalLM
 
-# ------------ Rutas / Config ------------
+# Rutas / Config
 NOTES_CSV = r"C:\Users\hered\Desktop\TFM\TFM\IMC2\eval_imc_fullnotes.csv"
 GT_CSV    = r"C:\Users\hered\Desktop\TFM\TFM\IMC2\valid_imc.csv"
 OUT_DIR   = str(Path("./outputs").resolve())
@@ -61,7 +61,7 @@ PROTOTYPES = {1.60, 1.70, 1.73, 1.75, 65.0, 70.0, 72.5, 75.0, 22.49, 24.2, 25.0}
 
 Path(OUT_DIR).mkdir(parents=True, exist_ok=True)
 
-# ------------ Carga de datos ------------
+# Carga de datos
 def load_notes(csv_path):
     df = pd.read_csv(csv_path, dtype={"patient_id": str})
     cand = [c for c in df.columns if str(c).lower() in {"patient","note","text","note_text","full_note"}]
@@ -91,7 +91,7 @@ gt    = load_gt(GT_CSV)
 notes = notes.head(20)
 print(f"Notas: {len(notes)} | GT: {len(gt)} | Intersección: {len(set(notes.patient_id)&set(gt.patient_id))}")
 
-# ------------ Modelo OpenVINO ------------
+# Modelo OpenVINO
 def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "CPU"):
     print(f"\nCargando tokenizer: {model_id}")
     try:
@@ -103,7 +103,7 @@ def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "CPU"):
         if tok.pad_token_id is None:
             tok.pad_token = tok.eos_token
     except Exception as e:
-        print(f"❌ Error cargando tokenizer: {e}")
+        print(f" Error cargando tokenizer: {e}")
         return None, None, None
 
     device = "CPU"
@@ -128,12 +128,12 @@ def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "CPU"):
         # Test
         test_input = tok("Test", return_tensors="pt")
         _ = ov_model.generate(test_input.input_ids, max_new_tokens=5)
-        print(f"✅ CodeLlama cargado exitosamente en {device}")
+        print(f"CodeLlama cargado exitosamente en {device}")
         
     except Exception as e:
-        print(f"❌ Error cargando CodeLlama: {e}")
+        print(f" Error cargando CodeLlama: {e}")
         # Alternativa: mistralai/Mistral-7B-Instruct-v0.2
-        print("🔄 Probando con Mistral-7B...")
+        print(" Probando con Mistral-7B...")
         MODEL_ID = "mistralai/Mistral-7B-Instruct-v0.2"
         return get_ov_model_and_tokenizer(MODEL_ID, "CPU")
 
@@ -157,7 +157,7 @@ def get_ov_model_and_tokenizer(model_id: str, device_pref: str = "CPU"):
             )
             return tok.decode(out_ids[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True).strip()
         except Exception as e:
-            print(f"❌ Error en generación: {e}")
+            print(f" Error en generación: {e}")
             return ""
 
     def apply_chat_template(system_text: str, user_text: str):
@@ -179,7 +179,7 @@ print(f"Cargando modelo: {MODEL_ID}")
 tokenizer, llm_generate, apply_chat_template = get_ov_model_and_tokenizer(MODEL_ID, device_pref="CPU")
 
 if tokenizer is None:
-    print("❌ No se pudo cargar ningún modelo.")
+    print(" No se pudo cargar ningún modelo.")
     sys.exit(1)
 
 # ------------ Ventanas / utils ------------
@@ -228,7 +228,7 @@ def proto_penalty(x):
         return -0.35 if v in PROTOTYPES else 0.0
     except: return 0.0
 
-# ------------ 4 PROMPTS ------------
+# 4 PROMPTS
 SYSTEM_SIMPLE = (
     "You are a careful clinical extractor. From the GIVEN WINDOW ONLY, return STRICT JSON with normalized SI values:\n"
     "{ \"height_m\": <float|null>, \"weight_kg\": <float|null>, \"bmi\": <float|null> }\n"
@@ -291,7 +291,7 @@ def score_triplet(h, w, b):
     s += proto_penalty(h) + proto_penalty(w) + proto_penalty(b)
     return s
 
-# --------- Ejecutores ---------
+# Ejecutores
 def run_triplet(note_text: str, system_text: str):
     wins = [(s, c) for s, c in window_iter(note_text)]
     wins = sorted(wins, key=lambda x: int(not has_unit_token(x[1])))
@@ -359,7 +359,7 @@ def run_fewshot(note_text: str, system_text: str):
     B = B_from if is_num(B_from) else (round(float(best["b"]),2) if is_num(best["b"]) else None)
     return H,W,B_from,B
 
-# --------- Encadenado ---------
+# Encadenado
 def chat_prompt(system, user):
     return apply_chat_template(system, user)
 
@@ -429,7 +429,7 @@ def run_chain_on_note(note_text: str, attempts_per_win=2, n_windows_max=4):
         "check":          best.get("check")
     }
 
-# ------------ Orquestación ------------
+# Orquestación
 PROMPTS = {
     "v1_simple":    SYSTEM_SIMPLE,
     "v2_estricto":  SYSTEM_STRICT,
@@ -439,7 +439,7 @@ PROMPTS = {
 
 def save_rows(rows, out_csv):
     pd.DataFrame(rows).to_csv(out_csv, index=False)
-    print(f"✅ Guardado: {out_csv}")
+    print(f" Guardado: {out_csv}")
 
 ALL_PRED_PATHS = []
 
@@ -484,7 +484,7 @@ for pid_name, system_text in PROMPTS.items():
     save_rows(rows, out_csv)
     ALL_PRED_PATHS.append(out_csv)
 
-# ------------ Evaluación ------------
+#Evaluación
 def eval_and_save(pred_path, gt_df):
     pred = pd.read_csv(pred_path, dtype={"patient_id": str})
     pred["patient_id"] = pred["patient_id"].astype(str).str.strip()
@@ -519,7 +519,7 @@ def eval_and_save(pred_path, gt_df):
     }
     mpath = pred_path.replace("pred_", "eval_")
     join.to_csv(mpath, index=False)
-    print(f"📊 Eval ({Path(pred_path).name}):", metrics)
+    print(f"Eval ({Path(pred_path).name}):", metrics)
     return mpath, metrics
 
 EVAL_PATHS = []
@@ -529,4 +529,5 @@ for p in ALL_PRED_PATHS:
 
 print("\nArchivos generados:")
 for p in ALL_PRED_PATHS: print(" -", p)
+
 for p in EVAL_PATHS:     print(" -", p)
