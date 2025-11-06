@@ -104,13 +104,16 @@ Esto llevó a consolidar una metodología basada únicamente en *prompting estru
 - Se propone un esquema experimental estandarizado (*MedCalc-Bench adaptado*) para evaluar razonamiento clínico en modelos generativos.  
 
 **Líneas futuras:**
-- Integrar verificadores externos (NumPy, reglas fisiológicas).  
-- Explorar *chain-of-thought* clínico.  
-- Optimizar despliegues locales con cuantización y compresión.
+- Combinar estrategias de *prompting* con técnicas de *fine-tuning* para aumentar la precisión.  
+- Desarrollar sistemas clínicos más sostenibles y accesibles mediante modelos optimizados.  
+- Explorar la integración de verificadores externos y módulos simbólicos para validar resultados médicos.
 
-
+---
 
 ## 10. Reflexión final
 
-El proyecto evidencia que, incluso con recursos limitados, es posible generar investigación empírica sólida y reproducible aplicando buenas prácticas de ingeniería de datos y evaluación.  
-Además, plantea una base metodológica para futuros trabajos que combinen **LLMs + razonamiento médico estructurado**.
+A nivel personal, una de las reflexiones más claras que saco de este trabajo es que la **infraestructura sigue siendo una de las grandes barreras para la investigación aplicada**, especialmente en entornos médicos.  
+Por ello, resulta esencial buscar **soluciones eficientes y realistas** que permitan llevar la inteligencia artificial al ámbito clínico sin depender de recursos excesivos.
+
+En este sentido, el **prompting estructurado** ha demostrado ser una alternativa ligera y reproducible, capaz de mejorar la precisión sin necesidad de reentrenamiento.  
+De cara al futuro, el reto está en **combinar estas estrategias con técnicas de fine-tuning** para construir sistemas clínicos **más precisos, sostenibles y accesibles**.
