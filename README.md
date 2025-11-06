@@ -1,4 +1,3 @@
-# Resumen del TFM
 
 ## Título del proyecto
 **Estudio de la mejora del uso de LLMs en cálculos médicos**
@@ -26,7 +25,7 @@ Se diseña un **pipeline reproducible de evaluación**, centrado en la extracci�
 - `pred_*.csv` → predicciones generadas por los modelos.  
 - `eval_*.csv` → comparativa entre predicciones y *ground truth* (MAE, RMSE, precisión).
 
----
+
 
 ## 3. Pipeline experimental
 
